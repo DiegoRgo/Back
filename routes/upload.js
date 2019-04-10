@@ -1,14 +1,24 @@
 var express = require('express');
+
 var fileupload = require('express-fileupload');
 var fs = require('fs');
-var app = express();
 
-app.use(fileupload());
+
+var app = express();
 
 var Usuario = require('../models/usuario');
 var Aplicacion = require('../models/aplicacion');
 
+
+
+
+app.use(fileupload());
+
+
+
+
 app.put('/:tipo/:id', (req, res, next) => {
+
     var tipo = req.params.tipo;
     var id = req.params.id;
 
@@ -21,6 +31,7 @@ app.put('/:tipo/:id', (req, res, next) => {
             errors: { message: 'Tipo de coleccion no valida' }
         });
     }
+
 
     if (!req.files) {
         return res.status(400).json({
@@ -47,17 +58,18 @@ app.put('/:tipo/:id', (req, res, next) => {
     }
 
     //Nombre img personalizado
+
     var nombreArchivo = `${ id }-${ new Date().getMilliseconds() }.${ extencionArchivo }`;
 
 
-
-    //mover Archivo
+    //Mueve el archivo a la direccion establecida
     var path = `./uploads/${ tipo }/${ nombreArchivo }`;
 
     archivo.mv(path, err => {
+
         if (err) {
             res.status(500).json({
-                ok: true,
+                ok: false,
                 mensaje: 'Error al mover archivo',
                 errors: err
             });
@@ -68,6 +80,7 @@ app.put('/:tipo/:id', (req, res, next) => {
 
 
 function subirPorTipo(tipo, id, nombreArchivo, res) {
+    // Actualiza img de los usuarios
     if (tipo === 'usuarios') {
         Usuario.findById(id, (err, usuario) => {
 
@@ -99,6 +112,7 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
         });
     }
 
+    // Actualiza img de los aplicaciones
     if (tipo === 'aplicaciones') {
         Aplicacion.findById(id, (err, aplicacion) => {
 
@@ -129,8 +143,6 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
         });
 
     }
-
-
 
 }
 

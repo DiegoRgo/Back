@@ -18,7 +18,7 @@ app.get('/', (req, res, next) => {
     desde = Number(desde);
 
     Aplicacion.find({})
-        .populate('usuario', 'nombre email role')
+        .populate('aplicacion', 'nombre url img')
         .skip(desde)
         .limit(5)
         .exec(
@@ -40,6 +40,39 @@ app.get('/', (req, res, next) => {
                 });
 
             });
+});
+
+
+//===================================================================================
+//Obtener aplicacion por ID
+//===================================================================================
+
+app.get('/:id', (req, res) => {
+    var id = req.params.id;
+    Aplicacion.findById(id)
+        .populate('usuario', 'nombre')
+        .exec((err, aplicacion) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'Error en la carga de Aplicaciones',
+                    errors: err
+                });
+            }
+
+            if (!aplicacion) {
+                return res.status(400).json({
+                    ok: false,
+                    mensaje: 'La aplicacion con el id' + id + 'no existe',
+                    errors: { message: 'No existe una aplicacion con ese ID' }
+                });
+            }
+
+            res.status(200).json({
+                ok: true,
+                aplicacion: aplicacion
+            });
+        });
 });
 
 
@@ -100,7 +133,7 @@ app.put('/:id', [mdAutenticacion.verificacionToken, mdAutenticacion.verificacion
 //Crear un nuevo aplicacion 
 //===================================================================================
 
-app.post('/', [mdAutenticacion.verificacionToken, mdAutenticacion.verificacionRole], (req, res) => {
+app.post('/', (req, res) => {
 
     var body = req.body;
 
@@ -109,7 +142,7 @@ app.post('/', [mdAutenticacion.verificacionToken, mdAutenticacion.verificacionRo
         nombre: body.nombre,
         url: body.url,
         img: body.img,
-        usuario: req.usuario._id
+        //usuario: req.usuario._id
     });
 
     aplicacion.save((err, aplicacionGuardado) => {

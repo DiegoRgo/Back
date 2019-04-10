@@ -8,6 +8,10 @@ var app = express();
 var Usuario = require('../models/usuario');
 var mdAutenticacion = require('../middlewares/autenticacion');
 
+//===================================================================================
+//Renueva el token 
+//===================================================================================
+
 
 app.get('/renuevaToken', mdAutenticacion.verificacionToken, (req, res) => {
 
@@ -19,7 +23,9 @@ app.get('/renuevaToken', mdAutenticacion.verificacionToken, (req, res) => {
     });
 });
 
-
+//===================================================================================
+//Verificacion e Ingreso(login)
+//===================================================================================
 
 
 app.post('/', (req, res) => {
@@ -71,14 +77,18 @@ app.post('/', (req, res) => {
     });
 });
 
+//===================================================================================
+//Obtiene el menu dependiendo del role del usuario
+//===================================================================================
+
 function obtenerMenu(ROLE) {
     var menu = [{
             titulo: 'Principal',
             icono: 'mdi mdi-gauge',
             submenu: [
-                { titulo: 'Agregar Aplicacion', url: '/dashboard' },
-                { titulo: 'ProgressBar', url: '/progress' },
-                { titulo: 'Grafica', url: '/grafica1' }
+                { titulo: 'Dashboard', url: '/dashboard' },
+                //{ titulo: 'ProgressBar', url: '/progress' },
+                //{ titulo: 'Grafica', url: '/grafica1' }
             ]
         },
         {
@@ -86,13 +96,16 @@ function obtenerMenu(ROLE) {
             icono: 'mdi mdi-folder-lock-open',
             submenu: [
                 // { titulo: 'Usuarios', url: '/usuarios' }
-                { titulo: 'Prueba ', url: '/xxx' }
+                //{ titulo: 'Prueba ', url: '/otro' }
             ]
         }
     ];
 
     if (ROLE === 'ADMIN_ROLE') {
+        menu[0].submenu.unshift({ titulo: 'Agregar Aplicacion', url: '/aplicacion/:id' });
         menu[1].submenu.unshift({ titulo: 'Usuarios', url: '/usuarios' });
+        menu[1].submenu.unshift({ titulo: 'Aplicaciones', url: '/aplicaciones' });
+
     }
 
     return menu;

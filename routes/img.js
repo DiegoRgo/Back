@@ -4,7 +4,7 @@ var app = express();
 const path = require('path');
 const fs = require('fs');
 
-app.get('/:tipo/:img', (req, res, next) => {
+app.get('/:tipo/:img', (req, res) => {
 
     var tipo = req.params.tipo;
     var img = req.params.img;
@@ -13,13 +13,8 @@ app.get('/:tipo/:img', (req, res, next) => {
 
     if (fs.existsSync(pathImg)) {
         res.sendFile(pathImg);
-    }
-
-    if (tipo === 'usuarios') {
-        var pathNoImg = path.resolve(__dirname, '../assets/noUser-img.jpg');
-        res.sendFile(pathNoImg);
     } else {
-        var pathNoImg = path.resolve(__dirname, '../assets/noFolder-img.jpg');
+        var pathNoImg = path.resolve(__dirname, '../assets/noUser.jpg');
         res.sendFile(pathNoImg);
     }
 

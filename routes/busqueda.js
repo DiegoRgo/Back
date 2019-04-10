@@ -94,7 +94,7 @@ function buscarUsuarios(busqueda, regex) {
 function buscarAplicaciones(busqueda, regex) {
 
     return new Promise((resolve, reject) => {
-        Aplicacion.find({}, 'nombre url')
+        Aplicacion.find({}, 'nombre url img')
             .or([{ 'nombre': regex }, { 'url': regex }])
             .populate('usuario', 'nombre role')
             .exec((err, aplicaciones) => {

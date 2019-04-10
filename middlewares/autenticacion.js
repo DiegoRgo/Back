@@ -45,7 +45,7 @@ exports.verificacionRole = function(req, res, next) {
         return res.status(401).json({
             ok: false,
             mensaje: 'Token incorrecto',
-            errors: { message: 'Acceso denegado ...! AD' }
+            errors: { message: 'Acceso denegado ...! ADW' }
         });
     }
 };
