@@ -1,12 +1,8 @@
 var express = require('express');
 
 var mdAutenticacion = require('../middlewares/autenticacion');
-
 var app = express();
-
 var Aplicacion = require('../models/aplicacion');
-
-
 
 //===================================================================================
 //Obtiene todas las aplicaciones 

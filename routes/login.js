@@ -11,8 +11,6 @@ var mdAutenticacion = require('../middlewares/autenticacion');
 //===================================================================================
 //Renueva el token 
 //===================================================================================
-
-
 app.get('/renuevaToken', mdAutenticacion.verificacionToken, (req, res) => {
 
     var token = jwt.sign({ usuario: req.usuario }, SEED, { expiresIn: 14400 });
@@ -26,8 +24,6 @@ app.get('/renuevaToken', mdAutenticacion.verificacionToken, (req, res) => {
 //===================================================================================
 //Verificacion e Ingreso(login)
 //===================================================================================
-
-
 app.post('/', (req, res) => {
 
     var body = req.body;
@@ -80,7 +76,6 @@ app.post('/', (req, res) => {
 //===================================================================================
 //Obtiene el menu dependiendo del role del usuario
 //===================================================================================
-
 function obtenerMenu(ROLE) {
     var menu = [{
             titulo: 'Principal',
@@ -92,7 +87,7 @@ function obtenerMenu(ROLE) {
             ]
         },
         {
-            titulo: 'Mantenimineto',
+            titulo: 'Mantenimiento',
             icono: 'mdi mdi-folder-lock-open',
             submenu: [
                 // { titulo: 'Usuarios', url: '/usuarios' }
